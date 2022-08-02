@@ -1,7 +1,10 @@
 using AppMvc.Net.ExtendMethods;
+using AppMvc.Net.Models;
 using AppMvc.Net.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Routing.Constraints;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +17,16 @@ builder.Services.Configure<RazorViewEngineOptions>(options => {
 builder.Services.AddSingleton<ProductService, ProductService>();
 
 builder.Services.AddSingleton<PlanetService>();
+
+
+// DbContext
+builder.Services.AddDbContext<AppDbContext>(options => {
+    string connectString = builder.Configuration.GetConnectionString("AppMvcConnectionString");
+    options.UseSqlServer(connectString);
+});
+//builder.Services.AddIdentity<AppUser, IdentityRole>()
+//                .AddEntityFrameworkStores<AppDbContext>()
+//                .AddDefaultTokenProviders();
 
 var app = builder.Build();
 
@@ -34,22 +47,6 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-//app.MapControllerRoute(
-//    name: "first",
-//    pattern: "{url}/{id?}",
-//    defaults: new
-//    {
-//        controller = "First",
-//        action = "ViewProduct"
-//    },
-//    constraints: new
-//    {
-//        url = "xemsanpham",
-//        id = new RangeRouteConstraint(2, 4)
-//    }
-//);
-
 
 app.MapControllerRoute(
     name: "default",
