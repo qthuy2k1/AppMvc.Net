@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace AppMvc.Net.Areas.Contact.Controllers
 {
     [Area("Contact")]
+    [Authorize(Roles = App.Data.RoleName.Administrator)]
     public class ContactController : Controller
     {
         private readonly AppDbContext _context;

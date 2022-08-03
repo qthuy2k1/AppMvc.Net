@@ -1,4 +1,7 @@
-﻿using AppMvc.Net.ExtendMethods;
+﻿using App.Data;
+using App.Models;
+using App.Services;
+using AppMvc.Net.ExtendMethods;
 using AppMvc.Net.Models;
 using AppMvc.Net.Services;
 using Microsoft.AspNetCore.Identity;
@@ -28,6 +31,18 @@ builder.Services.AddDbContext<AppDbContext>(options => {
 builder.Services.AddIdentity<AppUser, IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
+
+builder.Services.AddOptions();
+var mailSetting = builder.Configuration.GetSection("MailSettings");
+builder.Services.Configure<MailSettings>(mailSetting);
+builder.Services.AddSingleton<IEmailSender, SendMailService>();
+
+builder.Services.AddAuthorization(options => {
+    options.AddPolicy("ViewManageMenu", builder => {
+        builder.RequireAuthenticatedUser();
+        builder.RequireRole(RoleName.Administrator);
+    });
+});
 
 // Truy cập IdentityOptions
 builder.Services.Configure<IdentityOptions>(options => {
@@ -70,6 +85,7 @@ builder.Services.AddAuthentication().AddGoogle(options => {
     options.CallbackPath = "/dang-nhap-tu-google";
 });
 
+builder.Services.AddSingleton<IdentityErrorDescriber, AppIdentityErrorDescriber>();
 
 var app = builder.Build();
 
