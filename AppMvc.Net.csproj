@@ -8,13 +8,9 @@
 
   <ItemGroup>
     <Compile Remove="Area\**" />
-    <Compile Remove="Models\NewFolder\**" />
     <Content Remove="Area\**" />
-    <Content Remove="Models\NewFolder\**" />
     <EmbeddedResource Remove="Area\**" />
-    <EmbeddedResource Remove="Models\NewFolder\**" />
     <None Remove="Area\**" />
-    <None Remove="Models\NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,6 +43,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Contact\Data\" />
+    <Folder Include="Areas\Contact\Models\" />
     <Folder Include="Areas\Database\Data\" />
     <Folder Include="Areas\Database\Models\" />
   </ItemGroup>

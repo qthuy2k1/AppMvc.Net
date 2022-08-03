@@ -1,0 +1,32 @@
+body {
+  background: #fff;
+  color: #1d1d1f;
+}
+
+.app-navbar {
+  background: rgba(0, 0, 0, 0.8);
+}
+.app-navbar .text-dark {
+  color: #b9c3ce !important;
+}
+.app-navbar .text-dark:hover {
+  color: #fff !important;
+}
+.app-navbar .navbar-brand {
+  color: #a57dea;
+}
+.app-navbar .navbar-brand:hover {
+  color: #d727da !important;
+}
+.app-navbar .dropdown-toggle {
+  border-color: #a526ad;
+  color: silver;
+}
+
+.contact-firstcol {
+  background-color: #9854a0;
+  color: white;
+  text-align: center;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
