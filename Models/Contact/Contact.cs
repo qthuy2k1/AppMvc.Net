@@ -1,28 +1,35 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AppMvc.Net.Models.Contact
-{
-    public class Contact
+namespace App.Models.Contacts {
+
+    public class Contact 
     {
         [Key]
         public int Id { get; set; }
+
         [Column(TypeName = "nvarchar")]
-        [Required(ErrorMessage = "Phải nhập {0}")]
         [StringLength(50)]
-        [Display(Name = "Họ tên")]
+        [Required(ErrorMessage = "Phải nhập  {0}")]
+        [Display(Name = "Họ Tên")]
         public string FullName { get; set; }
-        [Required(ErrorMessage = "Phải nhập {0}")]
-        [EmailAddress(ErrorMessage = "Phải là địa chỉ email")]
+
+        [Required(ErrorMessage = "Phải nhập  {0}")]
         [StringLength(100)]
+        [EmailAddress(ErrorMessage = "Phải là địa chỉ email")]
         [Display(Name = "Địa chỉ email")]
         public string Email { get; set; }
-        public DateTime? DateSent { get; set; }
+
+        public DateTime DateSent { get; set; }
+
         [Display(Name = "Nội dung")]
-        public string? Message { get; set; }
+        public string Message { get; set; }
+
         [StringLength(50)]
-        [Phone(ErrorMessage = "Phải là số điện thoại")]
+        [Phone(ErrorMessage = "Phải là số diện thoại")]
         [Display(Name = "Số điện thoại")]
-        public string? Phone { get; set; }
+        public string Phone { get; set; }
     }
+
 }

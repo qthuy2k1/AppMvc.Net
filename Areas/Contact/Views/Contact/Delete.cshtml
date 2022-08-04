@@ -1,4 +1,4 @@
-﻿@model AppMvc.Net.Models.Contact.Contact
+@model App.Models.Contacts.Contact
 
 @{
     ViewData["Title"] = "Xóa liên hệ";
@@ -6,7 +6,7 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<h3>Có chắc chắn xóa liên hệ?</h3>
+<h3>Có chắc chắn xóa liên hệ??</h3>
 <div>
     <hr />
     <dl class="row">
@@ -44,7 +44,7 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <input type="submit" value="Xóa" class="btn btn-danger" /> |
         <a asp-action="Index">Danh sách liên hệ</a>
     </form>
 </div>

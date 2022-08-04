@@ -63,7 +63,7 @@ namespace App.Areas.Identity.Controllers
                 profile = new EditExtraProfileModel()
                 {
                     BirthDate = user.BirthDate,
-                    HomeAdress = user.HomeAddress,
+                    HomeAdress = user.HomeAdress,
                     UserName = user.UserName,
                     UserEmail = user.Email,
                     PhoneNumber = user.PhoneNumber,
@@ -101,15 +101,15 @@ namespace App.Areas.Identity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
             var user = await GetCurrentUserAsync();
-            if(user != null)
+            if (user != null)
             {
                 var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
-                if(result.Succeeded)
+                if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User changed their password successfully.");
@@ -134,16 +134,16 @@ namespace App.Areas.Identity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SetPassword(SetPasswordViewModel model)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
             var user = await GetCurrentUserAsync();
-            if(user != null)
+            if (user != null)
             {
                 var result = await _userManager.AddPasswordAsync(user, model.NewPassword);
-                if(result.Succeeded)
+                if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction(nameof(Index), new { Message = ManageMessageId.SetPasswordSuccess });
@@ -164,7 +164,7 @@ namespace App.Areas.Identity.Controllers
                 : message == ManageMessageId.Error ? "Có lỗi."
                 : "";
             var user = await GetCurrentUserAsync();
-            if(user == null)
+            if (user == null)
             {
                 return View("Error");
             }
@@ -198,12 +198,12 @@ namespace App.Areas.Identity.Controllers
         public async Task<ActionResult> LinkLoginCallback()
         {
             var user = await GetCurrentUserAsync();
-            if(user == null)
+            if (user == null)
             {
                 return View("Error");
             }
             var info = await _signInManager.GetExternalLoginInfoAsync(await _userManager.GetUserIdAsync(user));
-            if(info == null)
+            if (info == null)
             {
                 return RedirectToAction(nameof(ManageLogins), new { Message = ManageMessageId.Error });
             }
@@ -221,10 +221,10 @@ namespace App.Areas.Identity.Controllers
         {
             ManageMessageId? message = ManageMessageId.Error;
             var user = await GetCurrentUserAsync();
-            if(user != null)
+            if (user != null)
             {
                 var result = await _userManager.RemoveLoginAsync(user, account.LoginProvider, account.ProviderKey);
-                if(result.Succeeded)
+                if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     message = ManageMessageId.RemoveLoginSuccess;
@@ -245,7 +245,7 @@ namespace App.Areas.Identity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddPhoneNumber(AddPhoneNumberViewModel model)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
@@ -271,15 +271,15 @@ namespace App.Areas.Identity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> VerifyPhoneNumber(VerifyPhoneNumberViewModel model)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
             var user = await GetCurrentUserAsync();
-            if(user != null)
+            if (user != null)
             {
                 var result = await _userManager.ChangePhoneNumberAsync(user, model.PhoneNumber, model.Code);
-                if(result.Succeeded)
+                if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction(nameof(Index), new { Message = ManageMessageId.AddPhoneSuccess });
@@ -296,10 +296,10 @@ namespace App.Areas.Identity.Controllers
         public async Task<IActionResult> RemovePhoneNumber()
         {
             var user = await GetCurrentUserAsync();
-            if(user != null)
+            if (user != null)
             {
                 var result = await _userManager.SetPhoneNumberAsync(user, null);
-                if(result.Succeeded)
+                if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction(nameof(Index), new { Message = ManageMessageId.RemovePhoneSuccess });
@@ -316,7 +316,7 @@ namespace App.Areas.Identity.Controllers
         public async Task<IActionResult> EnableTwoFactorAuthentication()
         {
             var user = await GetCurrentUserAsync();
-            if(user != null)
+            if (user != null)
             {
                 await _userManager.SetTwoFactorEnabledAsync(user, true);
                 await _signInManager.SignInAsync(user, isPersistent: false);
@@ -331,7 +331,7 @@ namespace App.Areas.Identity.Controllers
         public async Task<IActionResult> DisableTwoFactorAuthentication()
         {
             var user = await GetCurrentUserAsync();
-            if(user != null)
+            if (user != null)
             {
                 await _userManager.SetTwoFactorEnabledAsync(user, false);
                 await _signInManager.SignInAsync(user, isPersistent: false);
@@ -346,7 +346,7 @@ namespace App.Areas.Identity.Controllers
         public async Task<IActionResult> ResetAuthenticatorKey()
         {
             var user = await GetCurrentUserAsync();
-            if(user != null)
+            if (user != null)
             {
                 await _userManager.ResetAuthenticatorKeyAsync(user);
                 _logger.LogInformation(1, "User reset authenticator key.");
@@ -361,7 +361,7 @@ namespace App.Areas.Identity.Controllers
         public async Task<IActionResult> GenerateRecoveryCode()
         {
             var user = await GetCurrentUserAsync();
-            if(user != null)
+            if (user != null)
             {
                 var codes = await _userManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 5);
                 _logger.LogInformation(1, "User generated new recovery code.");
@@ -374,11 +374,11 @@ namespace App.Areas.Identity.Controllers
         public async Task<IActionResult> EditProfileAsync()
         {
             var user = await GetCurrentUserAsync();
-
+            
             var model = new EditExtraProfileModel()
             {
                 BirthDate = user.BirthDate,
-                HomeAdress = user.HomeAddress,
+                HomeAdress = user.HomeAdress,
                 UserName = user.UserName,
                 UserEmail = user.Email,
                 PhoneNumber = user.PhoneNumber,
@@ -390,7 +390,7 @@ namespace App.Areas.Identity.Controllers
         {
             var user = await GetCurrentUserAsync();
 
-            user.HomeAddress = model.HomeAdress;
+            user.HomeAdress = model.HomeAdress;
             user.BirthDate = model.BirthDate;
             await _userManager.UpdateAsync(user);
 

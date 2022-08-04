@@ -1,14 +1,14 @@
-﻿@model AppMvc.Net.Models.ProductModel
-
+@model App.Models.ProductModel
 @{
-    var product = ViewBag.Product as ProductModel;
+    var produdct = ViewBag.product as ProductModel;
+
 }
 <p>@ViewData["Title"]</p>
-<div class="card bg-danger text-white">
-    <h1 class="card-header">@product.Name</h1>
+<div class="card bg-warning text-white">
+    <h1 class="card-header">@produdct.Name</h1>
     <div class="card-body">
-        <p class="card-text">
-            Giá: @product.Price
-        </p>
+      <p class="card-text">
+          Giá: @produdct.Price
+      </p>
     </div>
 </div>

@@ -1,10 +1,10 @@
-﻿@model IEnumerable<AppMvc.Net.Models.Contact.Contact>
+@model IEnumerable<App.Models.Contacts.Contact>
 
 @{
     ViewData["Title"] = "Danh sách liên hệ";
 }
 
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
 
 <table class="table">
     <thead>
@@ -18,6 +18,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.DateSent)
             </th>
+            
             <th>
                 @Html.DisplayNameFor(model => model.Phone)
             </th>
@@ -39,7 +40,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Phone)
             </td>
-            <td>|
+            <td>
                 <a asp-action="Details" asp-route-id="@item.Id">Xem</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Xóa</a>
             </td>

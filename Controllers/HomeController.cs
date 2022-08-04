@@ -1,8 +1,13 @@
-﻿using AppMvc.Net.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using App.Models;
 
-namespace AppMvc.Net.Controllers
+namespace App.Controllers
 {
     public class HomeController : Controller
     {
@@ -13,15 +18,12 @@ namespace AppMvc.Net.Controllers
             _logger = logger;
         }
 
+        public string HiHome() => "Xin chao cac ban, toi la HiHome";
         public IActionResult Index()
         {
             return View();
         }
 
-        public string HiHome()
-        {
-            return "Hello every one, I'm HiHome";
-        }
         public IActionResult Privacy()
         {
             return View();
