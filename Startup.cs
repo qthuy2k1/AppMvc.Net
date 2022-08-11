@@ -28,7 +28,7 @@ using Microsoft.Extensions.Logging;
 
 namespace App
 {
-  public class Startup
+    public class Startup
     {
         public static string ContentRootPath { get; set; }
         public Startup(IConfiguration configuration, IWebHostEnvironment env)
@@ -48,18 +48,20 @@ namespace App
             services.AddSingleton<IEmailSender, SendMailService>();
 
 
-            services.AddDbContext<AppDbContext>(options => {
+            services.AddDbContext<AppDbContext>(options =>
+            {
                 string connectString = Configuration.GetConnectionString("AppMvcConnectionString");
                 options.UseSqlServer(connectString);
-            });           
+            });
 
             services.AddControllersWithViews();
             services.AddRazorPages();
             // services.AddTransient(typeof(ILogger<>), typeof(Logger<>)); //Serilog
-            services.Configure<RazorViewEngineOptions>(options => {
+            services.Configure<RazorViewEngineOptions>(options =>
+            {
                 // /View/Controller/Action.cshtml
                 // /MyView/Controller/Action.cshtml
-                
+
                 // {0} -> ten Action
                 // {1} -> ten Controller
                 // {2} -> ten Area
@@ -72,15 +74,16 @@ namespace App
             // services.AddSingleton<ProductService>();
             // services.AddSingleton<ProductService, ProductService>();
             // services.AddSingleton(typeof(ProductService));
-            services.AddSingleton(typeof(ProductService),  typeof(ProductService));
+            // services.AddSingleton(typeof(ProductService),  typeof(ProductService));
             services.AddSingleton<PlanetService>();
 
-                        // Dang ky Identity
+            // Dang ky Identity
             services.AddIdentity<AppUser, IdentityRole>()
                     .AddEntityFrameworkStores<AppDbContext>()
                     .AddDefaultTokenProviders();
             // Truy cập IdentityOptions
-            services.Configure<IdentityOptions> (options => {
+            services.Configure<IdentityOptions>(options =>
+            {
                 // Thiết lập về Password
                 options.Password.RequireDigit = false; // Không bắt phải có số
                 options.Password.RequireLowercase = false; // Không bắt phải có chữ thường
@@ -90,7 +93,7 @@ namespace App
                 options.Password.RequiredUniqueChars = 1; // Số ký tự riêng biệt
 
                 // Cấu hình Lockout - khóa user
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes (5); // Khóa 5 phút
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); // Khóa 5 phút
                 options.Lockout.MaxFailedAccessAttempts = 3; // Thất bại 3 lầ thì khóa
                 options.Lockout.AllowedForNewUsers = true;
 
@@ -98,47 +101,45 @@ namespace App
                 options.User.AllowedUserNameCharacters = // các ký tự đặt tên user
                     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = true;  // Email là duy nhất
-            
+
 
                 // Cấu hình đăng nhập.
                 options.SignIn.RequireConfirmedEmail = true;            // Cấu hình xác thực địa chỉ email (email phải tồn tại)
                 options.SignIn.RequireConfirmedPhoneNumber = false;     // Xác thực số điện thoại
-                options.SignIn.RequireConfirmedAccount = true; 
-                
-            });      
+                options.SignIn.RequireConfirmedAccount = true;
 
-            services.ConfigureApplicationCookie(options => {
+            });
+
+            services.ConfigureApplicationCookie(options =>
+            {
                 options.LoginPath = "/login/";
                 options.LogoutPath = "/logout/";
                 options.AccessDeniedPath = "/khongduoctruycap.html";
-            });  
+            });
 
             services.AddAuthentication()
-                    .AddGoogle(options => {
+                    .AddGoogle(options =>
+                    {
                         var gconfig = Configuration.GetSection("Authentication:Google");
                         options.ClientId = gconfig["ClientId"];
                         options.ClientSecret = gconfig["ClientSecret"];
                         // https://localhost:5001/signin-google
-                        options.CallbackPath =  "/dang-nhap-tu-google";
-                    })
-                    .AddFacebook(options => {
-                        var fconfig = Configuration.GetSection("Authentication:Facebook");
-                        options.AppId  = fconfig["AppId"];
-                        options.AppSecret = fconfig["AppSecret"];
-                        options.CallbackPath =  "/dang-nhap-tu-facebook";
+                        options.CallbackPath = "/dang-nhap-tu-google";
                     })
                     // .AddTwitter()
                     // .AddMicrosoftAccount()
                     ;
 
-                services.AddSingleton<IdentityErrorDescriber, AppIdentityErrorDescriber>();
+            services.AddSingleton<IdentityErrorDescriber, AppIdentityErrorDescriber>();
 
-                services.AddAuthorization(options => {
-                    options.AddPolicy("ViewManageMenu", builder => {
-                        builder.RequireAuthenticatedUser();
-                        builder.RequireRole(RoleName.Administrator);
-                    });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("ViewManageMenu", builder =>
+                {
+                    builder.RequireAuthenticatedUser();
+                    builder.RequireRole(RoleName.Administrator);
                 });
+            });
 
 
 
@@ -163,7 +164,8 @@ namespace App
             app.UseStaticFiles();
 
             // /contents/1.jpg => Uploads/1.jpg
-            app.UseStaticFiles(new StaticFileOptions() {
+            app.UseStaticFiles(new StaticFileOptions()
+            {
                 FileProvider = new PhysicalFileProvider(
                     Path.Combine(Directory.GetCurrentDirectory(), "Uploads")
                 ),
@@ -180,7 +182,8 @@ namespace App
             app.UseEndpoints(endpoints =>
             {
                 // /sayhi
-                endpoints.MapGet("/sayhi", async (context) => {
+                endpoints.MapGet("/sayhi", async (context) =>
+                {
                     await context.Response.WriteAsync($"Hello ASP.NET MVC {DateTime.Now}");
                 });
 
@@ -190,7 +193,7 @@ namespace App
                 // endpoints.MapAreaControllerRoute
 
                 // [AcceptVerbs]
- 
+
                 // [Route]
 
                 // [HttpGet]
@@ -203,11 +206,12 @@ namespace App
                 // Area
 
                 endpoints.MapControllers();
- 
+
                 endpoints.MapControllerRoute(
                     name: "first",
-                    pattern: "{url:regex(^((xemsanpham)|(viewproduct))$)}/{id:range(2,4)}", 
-                    defaults: new {
+                    pattern: "{url:regex(^((xemsanpham)|(viewproduct))$)}/{id:range(2,4)}",
+                    defaults: new
+                    {
                         controller = "First",
                         action = "ViewProduct"
                     }
@@ -219,7 +223,7 @@ namespace App
                     pattern: "/{controller}/{action=Index}/{id?}",
                     areaName: "ProductManage"
                 );
-                
+
                 // Controller khong co Area
                 endpoints.MapControllerRoute(
                     name: "default",
