@@ -1,9 +1,18 @@
 @model EditRoleModel
- 
+@using App.Menu
+@inject AdminSidebarService _adminSidebarService
+
 @{
+
+
+
     ViewData["Title"] = "Cập nhật role";
+
+
+
+    Layout = "/Views/Shared/_LayoutAdmin.cshtml";
+
 }
-<h2>@ViewData["Title"]</h2>
 <partial name="_StatusMessage"></partial>
 
 <hr>
@@ -24,28 +33,48 @@
             </div>
         </form>
         <hr>
-        <p>Các đặc tính  (claim) của role:
+        <p>Các đặc tính (claim) của role:
             <a asp-action="AddRoleClaim" asp-route-roleid="@Model.role.Id">+ Thêm claim</a>
         </p>
         @if (Model.Claims.Count > 0)
+
+
+
         {
             <ul>
                 @foreach (var claim in Model.Claims)
+
+
+
                 {
                     <li>
                         <a asp-action="EditRoleClaim" asp-route-claimid="@claim.Id">
-                            @claim.ClaimType  : @claim.ClaimValue
+                            @claim.ClaimType : @claim.ClaimValue
                         </a>
-                        
 
                     </li>
+
+
+
                 }
             </ul>
+
+
+
         }
     </div>
 </div>
 
+@{
+
+
+
+    _adminSidebarService.SetActive("Role", "Index", "Identity");
+}
+@section Sidebar {
+@Html.Raw(_adminSidebarService.RenderHtml())
+}
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

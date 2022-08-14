@@ -1,7 +1,10 @@
 @model App.Models.Contacts.Contact
+@using App.Menu
+@inject AdminSidebarService _adminSidebarService
 
 @{
     ViewData["Title"] = "Gửi liên hệ tới AppMvc";
+    Layout = "/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <div class="row">
@@ -25,7 +28,7 @@
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
- 
+
 
             <div class="form-group">
                 <label asp-for="Phone" class="control-label"></label>
@@ -33,7 +36,7 @@
                 <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
 
-             <div class="form-group">
+            <div class="form-group">
                 <label asp-for="Message" class="control-label"></label>
                 <textarea rows="5" asp-for="Message" class="form-control"></textarea>
                 <span asp-validation-for="Message" class="text-danger"></span>
@@ -47,3 +50,10 @@
 </div>
 
 
+@{
+    _adminSidebarService.SetActive("Contact", "Index", "Contact");
+}
+
+@section Sidebar {
+@Html.Raw(_adminSidebarService.RenderHtml())
+}

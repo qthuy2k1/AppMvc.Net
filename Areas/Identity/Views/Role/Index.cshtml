@@ -1,11 +1,18 @@
 @model List<RoleModel>
+@using App.Menu
+@inject AdminSidebarService _adminSidebarService
 @{
+
+
+
     ViewData["Title"] = "Danh sách các role (vai trò)";
+
+
+
+    Layout = "/Views/Shared/_LayoutAdmin.cshtml";
 }
-<h2>@ViewData["Title"]</h2>
 
 <partial name="_StatusMessage"></partial>
-
 
 <div class="mb-2">
     <a class="btn btn-secondary" asp-action="Create">Tạo role mới</a>
@@ -18,13 +25,22 @@
         <th>Tác vụ</th>
     </tr>
     @foreach (var role in Model)
+
+
+
     {
         <tr>
             <td>
                 <p>@role.Name</p>
                 @foreach (var claim in @role.Claims)
+
+
+
                 {
                     <small>@claim</small><br>
+
+
+
                 }
             </td>
             <td>
@@ -32,5 +48,18 @@
                 <a class="btn btn-success btn-sm" asp-action="Delete" asp-route-roleid="@role.Id">Xóa</a>
             </td>
         </tr>
+
+
+
     }
 </table>
+
+@{
+
+
+
+    _adminSidebarService.SetActive("Role", "Index", "Identity");
+}
+@section Sidebar {
+@Html.Raw(_adminSidebarService.RenderHtml())
+}
